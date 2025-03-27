@@ -40,11 +40,15 @@ export function Grafico7Dias({ data }) {
             <XAxis dataKey="date" stroke="#6b7280" tick={{ fontSize: 12 }} />
             <YAxis domain={[0, 100]} stroke="#6b7280" tick={{ fontSize: 12 }} />
             <Tooltip
+              // Modifique o tooltip para mostrar ambos os valores:
               content={({ payload }) => (
                 <div className="bg-white p-2 rounded-lg shadow-md border">
                   <p className="font-semibold">{payload?.[0]?.payload.date}</p>
                   <p className="text-sm">Hora: {payload?.[0]?.payload.time}</p>
                   <p className="text-blue-600">{payload?.[0]?.value}%</p>
+                  <p className="text-xs text-gray-500">
+                    Sensor: {4096 - payload?.[0]?.payload.value}
+                  </p>
                 </div>
               )}
             />

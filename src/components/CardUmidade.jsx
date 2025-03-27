@@ -16,9 +16,12 @@ export function CardUmidade({ current, optimal }) {
             <span className="text-9xl font-bold text-gray-800">{current}</span>
             <span className="text-4xl text-gray-500">%</span>
           </div>
-          <p className="text-sm text-center text-gray-500 mt-2">
-            Faixa ideal: {optimal}
-          </p>
+          {/* <p className="text-sm text-gray-500 mt-2">
+            Faixa segura: {optimal}
+            <span className="block text-xs">
+              (Equivalente a 4096-3000 no sensor)
+            </span>
+          </p> */}
         </div>
       </div>
     </div>

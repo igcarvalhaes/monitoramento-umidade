@@ -9,30 +9,44 @@ import {
 } from "recharts";
 
 export function GraficoUmidade({ data }) {
-  // Formata os dados para o gráfico (9 últimas medições)
-  const chartData = data.slice(-9).map((item) => ({
-    time: item.time.substring(0, 5), // Formata para HH:mm
+  // Pega e formata as últimas 50 medições
+  const chartData = data.slice(-50).map((item) => ({
+    time: item.time.substring(0, 5),
     percentage: item.percentage,
+    value: item.value, // Mantemos o valor bruto para o tooltip
   }));
 
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg mt-8">
       <h3 className="text-xl font-semibold text-gray-700 mb-6">
-        Variação da Umidade ao Longo do Tempo
+        Variação da Umidade (Últimas 50 Medições)
       </h3>
 
       <div className="h-64">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" stroke="#6b7280" tick={{ fontSize: 12 }} />
+            <XAxis
+              dataKey="time"
+              stroke="#6b7280"
+              tick={{ fontSize: 10 }}
+              interval={Math.floor(chartData.length / 10)} // Mostra 10 rótulos
+            />
             <YAxis domain={[0, 100]} stroke="#6b7280" tick={{ fontSize: 12 }} />
             <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "none",
-                borderRadius: "8px",
-                boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+              content={({ active, payload }) => {
+                if (active && payload && payload.length) {
+                  return (
+                    <div className="bg-white p-2 rounded-lg shadow-md border">
+                      <p className="font-medium">{payload[0].payload.time}</p>
+                      <p className="text-blue-600">{payload[0].value}%</p>
+                      <p className="text-xs text-gray-500">
+                        Sensor: {payload[0].payload.value}
+                      </p>
+                    </div>
+                  );
+                }
+                return null;
               }}
             />
             <Line
@@ -47,7 +61,7 @@ export function GraficoUmidade({ data }) {
       </div>
 
       <div className="mt-4 text-sm text-gray-500 text-center">
-        Últimas 9 medições registradas (Horário do Servidor)
+        Últimas 50 medições registradas (Horário do Servidor)
       </div>
     </div>
   );

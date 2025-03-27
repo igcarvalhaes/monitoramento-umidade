@@ -5,6 +5,7 @@ import { CardBomba } from "./components/CardBomba";
 import { HistoricoMedicao } from "./components/HistoricoMedicao";
 import { GraficoUmidade } from "./components/GraficoUmidade";
 import { Grafico7Dias } from "./components/Grafico7Dias";
+import { StatusSolo } from "./components/StatusSolo";
 
 import { useState, useEffect } from "react";
 import { ref, onValue } from "firebase/database";
@@ -30,19 +31,20 @@ function App() {
           .sort((a, b) => a.timestamp - b.timestamp)
           .map((item) => ({
             value: item.valor_sensor,
-            percentage: Math.round((item.valor_sensor / 4096) * 100),
+            // FÓRMULA CORRETA ↓
+            percentage: Math.round(((4096 - item.valor_sensor) / 4096) * 100),
             date: item.data,
             time: item.hora,
-            timestamp: item.timestamp * 1000, // Convertendo para milissegundos
+            timestamp: item.timestamp * 1000,
             status: item.status,
           }));
 
         setUmidadeDados({
           current: historico[historico.length - 1].value,
           currentPercentage: historico[historico.length - 1].percentage,
-          optimal: "60-70%",
-          fullHistory: historico, // Mantém todos os dados
-          recentHistory: historico.slice(-6), // Últimas 6
+          optimal: "0-25%", // Corrigido para refletir 4096→0% e 3000→25%
+          fullHistory: historico,
+          recentHistory: historico.slice(-6),
           statusBomba: historico[historico.length - 1].status,
         });
       }
@@ -63,7 +65,12 @@ function App() {
             <CardBomba status={umidadeDados.statusBomba} />
           </div>
 
-          {/* Dados históricos */}
+          {/* Nova seção para status do solo */}
+          <div className="mt-4">
+            <StatusSolo percentage={umidadeDados.currentPercentage} />
+          </div>
+
+          {/* Historico das últimas 6 medições de umidade */}
 
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
@@ -73,7 +80,7 @@ function App() {
 
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
-              <GraficoUmidade data={umidadeDados.recentHistory} />
+              <GraficoUmidade data={umidadeDados.fullHistory} />
             </div>
           </div>
 
