@@ -1,6 +1,6 @@
 import { Droplets, Zap } from "lucide-react";
 
-export function CardMedicao({ current, optimal, bomba }) {
+export function CardMedicao({ currentPercentage, optimal, bomba }) {
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg">
       <div className="flex justify-between mb-6">
@@ -10,7 +10,7 @@ export function CardMedicao({ current, optimal, bomba }) {
           </h3>
           <div>
             <h2 className="text-5xl font-bold">
-              {current}
+              {currentPercentage}
               <span className="text-2xl mx-1.5 text-gray-500 font-semibold">
                 %
               </span>
@@ -31,16 +31,13 @@ export function CardMedicao({ current, optimal, bomba }) {
                   : "text-red-500"
               }`}
             />
-            <div className="flex flex-col">
-              <span className="text-sm font-medium text-gray-600">Bomba</span>
-              <span
-                className={`text-sm ${
-                  bomba === "ligada" ? "text-green-600" : "text-red-600"
-                }`}
-              >
-                {bomba === "ligada" ? "Ligada" : "Desligada"}
-              </span>
-            </div>
+            <span
+              className={`text-sm font-medium ${
+                bomba === "ligada" ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              Bomba {bomba}
+            </span>
           </div>
         </div>
       </div>

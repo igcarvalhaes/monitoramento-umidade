@@ -22,26 +22,29 @@ function App() {
 
       if (data) {
         const rawData = Object.values(data);
-        const historico = Object.values(data).map((item) => ({
-          value: item.valor_sensor,
-          percentage: Math.round((item.valor_sensor / 4096) * 100), // Já convertido para %
-          date: item.data_hora.split(" ")[0], // Separa a data
-          time: item.data_hora.split(" ")[1], // Separa a hora
-          status: item.status,
-        }));
-
-        // Pega o último status da bomba
-        const ultimoStatus = rawData[rawData.length - 1]?.status || "desligada";
+        // Ordena por timestamp e pega os últimos registros
+        const historico = rawData
+          .sort((a, b) => a.timestamp - b.timestamp)
+          .map((item) => ({
+            value: item.valor_sensor,
+            percentage: Math.round((item.valor_sensor / 4096) * 100),
+            date: item.data,
+            time: item.hora.substring(0, 5), // Formata para HH:mm
+            status: item.status,
+            timestamp: item.timestamp,
+          }));
 
         setUmidadeDados({
           current: historico[historico.length - 1].value,
+          currentPercentage: historico[historico.length - 1].percentage,
           optimal: "60-70%",
-          history: historico.slice(-9), // Últimas 10 medições
-          statusBomba: rawData[rawData.length - 1]?.status || "desligada", // Campo crucial
+          history: historico.slice(-9), // Pega últimos 10 registros
+          statusBomba: historico[historico.length - 1].status,
         });
       }
     });
   }, []);
+
   return (
     <>
       <div className="min-h-screen bg-gray-50">
@@ -50,7 +53,7 @@ function App() {
         <main className="max-w-7xl mx-auto px-4 py-8">
           <CardMedicao
             /* a medicao da umidade é de 0 a 4096, sendo 0 muito úmido e 4096 muito seco, ajustei para exibir em porcentagem em current*/
-            current={Math.round((umidadeDados.current / 4096) * 100)}
+            currentPercentage={umidadeDados.currentPercentage}
             optimal={umidadeDados.optimal}
             bomba={umidadeDados.statusBomba} // Adicione esta linha
           />
