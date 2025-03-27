@@ -1,51 +1,70 @@
 export function HistoricoMedicao({ data }) {
-  const getBarColor = (value) => {
-    if (value < 60) return "bg-red-400";
-    if (value > 70) return "bg-yellow-400";
-    return "bg-green-400";
+  // Função para formatar a hora (remove segundos)
+  const formatTime = (time) => {
+    return time.substring(0, 5);
   };
 
-  const maxValue = 100; // Set fixed max value for consistent scaling
+  // Função para estilo do status
+  const getStatusStyle = (status) => {
+    return status === "ligada"
+      ? "bg-green-100 text-green-800"
+      : "bg-red-100 text-red-800";
+  };
 
   return (
-    <div className="p-6">
-      <div className="flex items-end justify-between h-64 mb-6">
+    <div className="bg-white p-8 rounded-xl shadow-lg">
+      <h3 className="text-xl font-semibold text-gray-700 mb-6">
+        Últimas 10 medições registradas
+      </h3>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {data.map((item, index) => (
-          <div key={index} className="flex flex-col items-center w-20">
-            <div className="relative w-12 group">
-              {/* Tooltip */}
-              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">
-                {item.value}%
+          <div
+            key={index}
+            className="border rounded-xl p-4 hover:shadow-md transition-shadow"
+          >
+            <div className="flex justify-between items-start mb-3">
+              <div>
+                <p className="text-sm font-semibold text-gray-600">
+                  {item.date}
+                </p>
+                <p className="text-2xl font-bold text-gray-800">
+                  {item.percentage}%
+                </p>
               </div>
-              {/* Bar */}
-              <div
-                className={`w-full rounded-t-lg transition-all duration-300 hover:opacity-80 ${getBarColor(
-                  item.value
-                )}`}
-                style={{
-                  height: `${(item.value / maxValue) * 200}px`,
-                  minHeight: "20px",
-                }}
-              />
+              <span
+                className={`${getStatusStyle(
+                  item.status
+                )} px-2 py-1 rounded-full text-xs font-medium`}
+              >
+                {item.status}
+              </span>
             </div>
-            <span className="mt-2 text-sm font-medium text-gray-600">
-              {item.day}
-            </span>
+
+            <div className="flex justify-between items-center text-sm">
+              <div className="text-gray-500">
+                <span className="block">Horário:</span>
+                <span className="font-medium">{formatTime(item.time)}</span>
+              </div>
+              <div className="text-gray-500">
+                <span className="block">Sensor:</span>
+                <span className="font-medium">{item.value}</span>
+              </div>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Reference lines */}
-      <div className="grid grid-cols-1 gap-8 pt-4 border-t border-gray-200">
-        <div className="flex justify-between text-sm text-gray-500">
-          <span>Baixo (&lt;60%)</span>
-          <span>Ideal (60-70%)</span>
-          <span>Alto (&gt;70%)</span>
-        </div>
-        <div className="flex justify-between">
-          <div className="w-16 h-2 bg-red-400 rounded"></div>
-          <div className="w-16 h-2 bg-green-400 rounded"></div>
-          <div className="w-16 h-2 bg-yellow-400 rounded"></div>
+      <div className="mt-6 pt-4 border-t border-gray-200">
+        <div className="flex gap-4 justify-end text-sm">
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 bg-green-100 rounded-full" />
+            <span className="text-gray-600">Bomba ligada</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <div className="w-3 h-3 bg-red-100 rounded-full" />
+            <span className="text-gray-600">Bomba desligada</span>
+          </div>
         </div>
       </div>
     </div>
