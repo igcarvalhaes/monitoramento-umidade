@@ -3,6 +3,7 @@ import { Header } from "./components/Header";
 import { CardMedicao } from "./components/CardMedicao";
 import { HistoricoMedicao } from "./components/HistoricoMedicao";
 import { GraficoUmidade } from "./components/GraficoUmidade";
+import { Grafico7Dias } from "./components/Grafico7Dias";
 
 import { useState, useEffect } from "react";
 import { ref, onValue } from "firebase/database";
@@ -12,8 +13,9 @@ function App() {
   const [umidadeDados, setUmidadeDados] = useState({
     current: 0,
     optimal: "60-70%",
-    history: [],
-    statusBomba: "desligada", // Novo campo adicionado
+    fullHistory: [], // Todos os dados
+    recentHistory: [], // Últimas 6 medições
+    statusBomba: "desligada",
   });
 
   useEffect(() => {
@@ -23,15 +25,14 @@ function App() {
 
       if (data) {
         const rawData = Object.values(data);
-        // Ordena por timestamp e pega os últimos registros
         const historico = rawData
           .sort((a, b) => a.timestamp - b.timestamp)
           .map((item) => ({
             value: item.valor_sensor,
             percentage: Math.round((item.valor_sensor / 4096) * 100),
             date: item.data,
-            time: item.hora.substring(0, 5), // Formata para HH:mm
-            fullTime: item.hora, // Mantém o original com segundos
+            time: item.hora,
+            timestamp: item.timestamp * 1000, // Convertendo para milissegundos
             status: item.status,
           }));
 
@@ -39,7 +40,8 @@ function App() {
           current: historico[historico.length - 1].value,
           currentPercentage: historico[historico.length - 1].percentage,
           optimal: "60-70%",
-          history: historico.slice(-9), // Pega últimos 10 registros
+          fullHistory: historico, // Mantém todos os dados
+          recentHistory: historico.slice(-6), // Últimas 6
           statusBomba: historico[historico.length - 1].status,
         });
       }
@@ -63,13 +65,19 @@ function App() {
 
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
-              <HistoricoMedicao data={umidadeDados.history} />
+              <HistoricoMedicao data={umidadeDados.recentHistory} />
             </div>
           </div>
 
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
-              <GraficoUmidade data={umidadeDados.history} />
+              <GraficoUmidade data={umidadeDados.recentHistory} />
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <div className="bg-white rounded-xl shadow-lg">
+              <Grafico7Dias data={umidadeDados.fullHistory} />
             </div>
           </div>
         </main>
