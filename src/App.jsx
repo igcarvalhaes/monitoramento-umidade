@@ -2,6 +2,7 @@ import "./App.css";
 import { Header } from "./components/Header";
 import { CardMedicao } from "./components/CardMedicao";
 import { HistoricoMedicao } from "./components/HistoricoMedicao";
+import { GraficoUmidade } from "./components/GraficoUmidade";
 
 import { useState, useEffect } from "react";
 import { ref, onValue } from "firebase/database";
@@ -30,8 +31,8 @@ function App() {
             percentage: Math.round((item.valor_sensor / 4096) * 100),
             date: item.data,
             time: item.hora.substring(0, 5), // Formata para HH:mm
+            fullTime: item.hora, // Mantém o original com segundos
             status: item.status,
-            timestamp: item.timestamp,
           }));
 
         setUmidadeDados({
@@ -63,6 +64,12 @@ function App() {
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
               <HistoricoMedicao data={umidadeDados.history} />
+            </div>
+          </div>
+
+          <div className="mt-8">
+            <div className="bg-white rounded-xl shadow-lg">
+              <GraficoUmidade data={umidadeDados.history} />
             </div>
           </div>
         </main>
