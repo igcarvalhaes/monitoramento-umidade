@@ -1,6 +1,7 @@
 import "./App.css";
 import { Header } from "./components/Header";
-import { CardMedicao } from "./components/CardMedicao";
+import { CardUmidade } from "./components/CardUmidade";
+import { CardBomba } from "./components/CardBomba";
 import { HistoricoMedicao } from "./components/HistoricoMedicao";
 import { GraficoUmidade } from "./components/GraficoUmidade";
 import { Grafico7Dias } from "./components/Grafico7Dias";
@@ -54,12 +55,13 @@ function App() {
         <Header />
 
         <main className="max-w-7xl mx-auto px-4 py-8">
-          <CardMedicao
-            /* a medicao da umidade é de 0 a 4096, sendo 0 muito úmido e 4096 muito seco, ajustei para exibir em porcentagem em current*/
-            currentPercentage={umidadeDados.currentPercentage}
-            optimal={umidadeDados.optimal}
-            bomba={umidadeDados.statusBomba} // Adicione esta linha
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CardUmidade
+              current={umidadeDados.currentPercentage}
+              optimal={umidadeDados.optimal}
+            />
+            <CardBomba status={umidadeDados.statusBomba} />
+          </div>
 
           {/* Dados históricos */}
 
