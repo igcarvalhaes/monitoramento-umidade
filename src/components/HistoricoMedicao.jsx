@@ -1,12 +1,20 @@
 export function HistoricoMedicao({ data }) {
+  const dados = data.slice(-3).map((item) => ({
+    date: item.date, // Adicione esta linha
+    time: item.time.substring(0, 5),
+    percentage: item.percentage,
+    value: item.value,
+    status: item.status, // Adicione esta linha
+  }));
+
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg">
       <h3 className="text-xl font-semibold text-gray-700 mb-6">
         Histórico de medições
       </h3>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data.map((item, index) => (
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        {dados.map((item, index) => (
           <div
             key={index}
             className="border rounded-xl p-4 hover:shadow-md transition-shadow"

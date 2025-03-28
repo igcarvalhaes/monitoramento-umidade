@@ -74,7 +74,7 @@ function App() {
 
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
-              <HistoricoMedicao data={umidadeDados.recentHistory} />
+              <HistoricoMedicao data={umidadeDados.fullHistory} />
             </div>
           </div>
 
