@@ -25,11 +25,15 @@ Este é um projeto simples desenvolvido em React com Tailwind CSS para monitorar
 ```plaintext
 src/
 ├── components/
-│   ├── Header.js         // Componente do cabeçalho do site
-│   ├── CardMedicao.js    // Componente que exibe os dados de medição
-├── App.js                // Componente principal da aplicação
+│   ├── Header.jsx         // Componente do cabeçalho do site
+│   ├── CardUmidade.jsx    // Componente que exibe os dados de umidade
+│   ├── CardBomba.jsx    // Componente que exibe o status da bomba
+│   ├── StatusSolo.jsx    // Componente que exibe o status do solo
+│   ├── HistoricoMedicao.jsx    // Componente que exibe card com as 3 ultimas medições
+│   ├── GraficoTotalUmidade.jsx    // Componente que exibe histórico completo de medições registradas
+├── App.jsx                // Componente principal da aplicação
 ├── App.css               // Estilos globais adicionais
-├── index.js              // Ponto de entrada do React
+├── index.html              // Ponto de entrada do React
 ```
 
 ---
@@ -74,7 +78,6 @@ src/
 
 ## 💡 Melhorias Futuras
 
-- Adicionar um gráfico para acompanhar as medições ao longo do tempo.
 - Implementar notificações de baixa umidade.
 - Criar uma funcionalidade de login para personalizar o monitoramento.
 
