@@ -31,6 +31,7 @@ src/
 │   ├── StatusSolo.jsx    // Componente que exibe o status do solo
 │   ├── HistoricoMedicao.jsx    // Componente que exibe card com as 3 ultimas medições
 │   ├── GraficoTotalUmidade.jsx    // Componente que exibe histórico completo de medições registradas
+│   ├── firebase.js    // Arquivo de configuração do firebase
 ├── App.jsx                // Componente principal da aplicação
 ├── App.css               // Estilos globais adicionais
 ├── index.html              // Ponto de entrada do React
