@@ -4,7 +4,7 @@ import { CardUmidade } from "./components/CardUmidade";
 import { CardBomba } from "./components/CardBomba";
 import { HistoricoMedicao } from "./components/HistoricoMedicao";
 import { GraficoUmidade } from "./components/GraficoUmidade";
-import { Grafico7Dias } from "./components/Grafico7Dias";
+import { GraficoTotalUmidade } from "./components/GraficoTotalUmidade";
 import { StatusSolo } from "./components/StatusSolo";
 
 import { useState, useEffect } from "react";
@@ -70,7 +70,7 @@ function App() {
             <StatusSolo percentage={umidadeDados.currentPercentage} />
           </div>
 
-          {/* Historico das últimas 6 medições de umidade */}
+          {/* Historico das últimas 3 medições de umidade */}
 
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
@@ -78,15 +78,15 @@ function App() {
             </div>
           </div>
 
-          <div className="mt-8">
+          {/* <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
               <GraficoUmidade data={umidadeDados.fullHistory} />
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">
-              <Grafico7Dias data={umidadeDados.fullHistory} />
+              <GraficoTotalUmidade data={umidadeDados.fullHistory} />
             </div>
           </div>
         </main>

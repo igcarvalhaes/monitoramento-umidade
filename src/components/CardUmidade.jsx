@@ -13,7 +13,9 @@ export function CardUmidade({ current, optimal }) {
 
         <div className="flex flex-col gap-1">
           <div className="flex items-baseline">
-            <span className="text-9xl font-bold text-gray-800">{current}</span>
+            <span className="ml-5 text-9xl font-bold text-gray-800">
+              {current}
+            </span>
             <span className="text-4xl text-gray-500">%</span>
           </div>
           {/* <p className="text-sm text-gray-500 mt-2">
