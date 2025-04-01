@@ -29,26 +29,38 @@ function App() {
       if (data) {
         const rawData = Object.values(data);
 
+        // Função para converter "data" e "hora" em um objeto Date ajustado para o fuso de Brasília
         const parseDate = (item) => {
           const [day, month, year] = item.data.split("/");
-          return new Date(`${year}-${month}-${day}T${item.hora}`);
+          let dateObj = new Date(`${year}-${month}-${day}T${item.hora}`);
+          // Subtrai 3 horas para ajustar para o horário de Brasília
+          dateObj.setHours(dateObj.getHours() - 3);
+          return dateObj;
         };
 
+        // Ordena os dados pelo objeto Date ajustado e mapeia para o formato desejado
         const historico = rawData
           .sort((a, b) => parseDate(a) - parseDate(b))
-          .map((item) => ({
-            value: item.valor_sensor,
-            percentage: Math.round(((4096 - item.valor_sensor) / 4096) * 100),
-            date: item.data,
-            time: item.hora,
-            timestamp: item.timestamp * 1000,
-            status: item.status,
-          }));
+          .map((item) => {
+            const adjustedDate = parseDate(item);
+            return {
+              value: item.valor_sensor,
+              percentage: Math.round(((4096 - item.valor_sensor) / 4096) * 100),
+              date: adjustedDate.toLocaleDateString("pt-BR"), // Ex.: "28/03/2025"
+              time: adjustedDate.toLocaleTimeString("pt-BR"), // Ex.: "14:10:00"
+              timestamp: adjustedDate.getTime(),
+              status: item.status,
+            };
+          });
 
-        // --- NOVO: Encontrar a última vez que a bomba foi ligada ---
-        const ultimaLigada = historico
-          .filter((item) => item.status === "irrigando") // Filtra apenas status "ligada"
-          .slice(-1)[0]; // Pega o último item do array filtrado
+        // Busca o último registro com status "irrigando" (ou null, se não houver)
+        let lastOn = null;
+        for (let i = historico.length - 1; i >= 0; i--) {
+          if (historico[i].status === "irrigando") {
+            lastOn = `${historico[i].date} às ${historico[i].time}`;
+            break;
+          }
+        }
 
         setUmidadeDados({
           current: historico[historico.length - 1].value,
@@ -57,9 +69,7 @@ function App() {
           fullHistory: historico,
           recentHistory: historico.slice(-6),
           statusBomba: historico[historico.length - 1].status,
-          lastIrrigation: ultimaLigada
-            ? `${ultimaLigada.date} às ${ultimaLigada.time}`
-            : null, // Formata a data/hora
+          lastIrrigation: lastOn,
         });
       }
     });
