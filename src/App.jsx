@@ -27,14 +27,23 @@ function App() {
 
       if (data) {
         const rawData = Object.values(data);
+
+        // Função para converter os campos de data e hora para um objeto Date
+        const parseDate = (item) => {
+          // Formato esperado: data "DD/MM/YYYY" e hora "HH:MM:SS"
+          const [day, month, year] = item.data.split("/");
+          // Monta uma string no formato ISO: "YYYY-MM-DDTHH:MM:SS"
+          return new Date(`${year}-${month}-${day}T${item.hora}`);
+        };
+
         const historico = rawData
-          .sort((a, b) => a.timestamp - b.timestamp)
+          .sort((a, b) => parseDate(a) - parseDate(b))
           .map((item) => ({
             value: item.valor_sensor,
-            // FÓRMULA CORRETA ↓
             percentage: Math.round(((4096 - item.valor_sensor) / 4096) * 100),
             date: item.data,
             time: item.hora,
+            // Não usamos o timestamp para ordenação, mas ainda o guardamos se necessário
             timestamp: item.timestamp * 1000,
             status: item.status,
           }));
@@ -42,7 +51,7 @@ function App() {
         setUmidadeDados({
           current: historico[historico.length - 1].value,
           currentPercentage: historico[historico.length - 1].percentage,
-          optimal: "0-25%", // Corrigido para refletir 4096→0% e 3000→25%
+          optimal: "0-25%", // Faixa ideal conforme sua lógica
           fullHistory: historico,
           recentHistory: historico.slice(-6),
           statusBomba: historico[historico.length - 1].status,
