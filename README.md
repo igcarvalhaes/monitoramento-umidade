@@ -27,11 +27,12 @@ src/
 ├── components/
 │   ├── Header.jsx         // Componente do cabeçalho do site
 │   ├── CardUmidade.jsx    // Componente que exibe os dados de umidade
-│   ├── CardBomba.jsx    // Componente que exibe o status da bomba
+│   ├── CardBomba.jsx    // Componente que exibe dados da última irrigação
 │   ├── StatusSolo.jsx    // Componente que exibe o status do solo
 │   ├── HistoricoMedicao.jsx    // Componente que exibe card com as 3 ultimas medições
 │   ├── GraficoTotalUmidade.jsx    // Componente que exibe histórico completo de medições registradas
-│   ├── firebase.js    // Arquivo de configuração do firebase
+│   ├── Footer.jsx    // Componente do footer
+├── firebase.js    // Arquivo de configuração do firebase
 ├── App.jsx                // Componente principal da aplicação
 ├── App.css               // Estilos globais adicionais
 ├── index.html              // Ponto de entrada do React
@@ -79,8 +80,9 @@ src/
 
 ## 💡 Melhorias Futuras
 
-- Implementar notificações de baixa umidade.
-- Criar uma funcionalidade de login para personalizar o monitoramento.
+- Criar uma navbar em header contendo links de histórico de medições e histórico de irrigações.
+- Criar uma pagina com todo histórico de medições.
+- Criar uma página com todo histórico de irrigações.
 
 ---
 
