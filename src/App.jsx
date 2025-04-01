@@ -10,6 +10,7 @@ import { StatusSolo } from "./components/StatusSolo";
 import { useState, useEffect } from "react";
 import { ref, onValue } from "firebase/database";
 import { database } from "./firebase";
+import { Footer } from "./components/Footer";
 
 function App() {
   const [umidadeDados, setUmidadeDados] = useState({
@@ -105,6 +106,7 @@ function App() {
           </div>
         </main>
       </div>
+      <Footer />
     </>
   );
 }
