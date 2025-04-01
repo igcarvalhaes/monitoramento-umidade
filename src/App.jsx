@@ -28,11 +28,8 @@ function App() {
       if (data) {
         const rawData = Object.values(data);
 
-        // Função para converter os campos de data e hora para um objeto Date
         const parseDate = (item) => {
-          // Formato esperado: data "DD/MM/YYYY" e hora "HH:MM:SS"
           const [day, month, year] = item.data.split("/");
-          // Monta uma string no formato ISO: "YYYY-MM-DDTHH:MM:SS"
           return new Date(`${year}-${month}-${day}T${item.hora}`);
         };
 
@@ -43,18 +40,25 @@ function App() {
             percentage: Math.round(((4096 - item.valor_sensor) / 4096) * 100),
             date: item.data,
             time: item.hora,
-            // Não usamos o timestamp para ordenação, mas ainda o guardamos se necessário
             timestamp: item.timestamp * 1000,
             status: item.status,
           }));
 
+        // --- NOVO: Encontrar a última vez que a bomba foi ligada ---
+        const ultimaLigada = historico
+          .filter((item) => item.status === "irrigando") // Filtra apenas status "ligada"
+          .slice(-1)[0]; // Pega o último item do array filtrado
+
         setUmidadeDados({
           current: historico[historico.length - 1].value,
           currentPercentage: historico[historico.length - 1].percentage,
-          optimal: "0-25%", // Faixa ideal conforme sua lógica
+          optimal: "0-25%",
           fullHistory: historico,
           recentHistory: historico.slice(-6),
           statusBomba: historico[historico.length - 1].status,
+          lastIrrigation: ultimaLigada
+            ? `${ultimaLigada.date} às ${ultimaLigada.time}`
+            : null, // Formata a data/hora
         });
       }
     });
@@ -71,7 +75,8 @@ function App() {
               current={umidadeDados.currentPercentage}
               optimal={umidadeDados.optimal}
             />
-            <CardBomba status={umidadeDados.statusBomba} />
+
+            <CardBomba lastIrrigation={umidadeDados.lastIrrigation} />
           </div>
 
           {/* Nova seção para status do solo */}
