@@ -30,7 +30,7 @@ export function HistoricoMedicao({ data }) {
               </div>
               <span
                 className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  item.status === "ligada"
+                  item.status === "irrigando"
                     ? "bg-green-100 text-green-800"
                     : "bg-red-100 text-red-800"
                 }`}
