@@ -9,9 +9,6 @@ export function Header() {
             <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
               Medidor de Umidade da Planta
             </h1>
-            {/* <p className="mt-1 font-extralight text-gray-600">
-              Monitoramento de umidade em tempo real
-            </p> */}
           </div>
           <Activity className="text-blue-600 w-8 h-8 mt-2 md:mt-0" />
         </div>
