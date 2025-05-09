@@ -1,10 +1,10 @@
 export function HistoricoMedicao({ data }) {
   const dados = data.slice(-3).map((item) => ({
-    date: item.date, // Adicione esta linha
+    date: item.date,
     time: item.time.substring(0, 5),
     percentage: item.percentage,
     value: item.value,
-    status: item.status, // Adicione esta linha
+    status: item.status,
   }));
 
   return (

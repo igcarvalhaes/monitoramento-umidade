@@ -1,7 +1,6 @@
 import { Zap } from "lucide-react";
 
 export function CardBomba({ lastIrrigation }) {
-  // Nome da prop alterado para lastIrrigation
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg h-full">
       <div className="flex flex-col justify-evenly items-center h-full">

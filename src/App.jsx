@@ -3,7 +3,6 @@ import { Header } from "./components/Header";
 import { CardUmidade } from "./components/CardUmidade";
 import { CardBomba } from "./components/CardBomba";
 import { HistoricoMedicao } from "./components/HistoricoMedicao";
-import { GraficoUmidade } from "./components/GraficoUmidade";
 import { GraficoTotalUmidade } from "./components/GraficoTotalUmidade";
 import { StatusSolo } from "./components/StatusSolo";
 
@@ -45,7 +44,7 @@ function App() {
             const adjustedDate = parseDate(item);
             return {
               value: item.valor_sensor,
-              percentage: Math.round(((4096 - item.valor_sensor) / 4096) * 100),
+              percentage: Math.round(((4095 - item.valor_sensor) / 4095) * 100),
               date: adjustedDate.toLocaleDateString("pt-BR"), // Ex.: "28/03/2025"
               time: adjustedDate.toLocaleTimeString("pt-BR"), // Ex.: "14:10:00"
               timestamp: adjustedDate.getTime(),
@@ -102,12 +101,6 @@ function App() {
               <HistoricoMedicao data={umidadeDados.fullHistory} />
             </div>
           </div>
-
-          {/* <div className="mt-8">
-            <div className="bg-white rounded-xl shadow-lg">
-              <GraficoUmidade data={umidadeDados.fullHistory} />
-            </div>
-          </div> */}
 
           <div className="mt-8">
             <div className="bg-white rounded-xl shadow-lg">

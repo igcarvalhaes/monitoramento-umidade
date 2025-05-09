@@ -1,6 +1,6 @@
 import { Droplets } from "lucide-react";
 
-export function CardUmidade({ current, optimal }) {
+export function CardUmidade({ current }) {
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg h-full">
       <div className="flex flex-col justify-evenly items-center h-full">
@@ -18,12 +18,6 @@ export function CardUmidade({ current, optimal }) {
             </span>
             <span className="text-4xl text-gray-500">%</span>
           </div>
-          {/* <p className="text-sm text-gray-500 mt-2">
-            Faixa segura: {optimal}
-            <span className="block text-xs">
-              (Equivalente a 4096-3000 no sensor)
-            </span>
-          </p> */}
         </div>
       </div>
     </div>
