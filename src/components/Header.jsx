@@ -7,7 +7,7 @@ export function Header() {
         <div className="flex flex-col items-center justify-center gap-1.5 text-center md:flex-row md:justify-between md:text-start">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 md:text-3xl">
-              Medidor de Umidade da Planta
+              Medidor do Índice Normalizado
             </h1>
           </div>
           <Activity className="text-blue-600 w-8 h-8 mt-2 md:mt-0" />
