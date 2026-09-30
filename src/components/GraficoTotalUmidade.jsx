@@ -20,7 +20,7 @@ export function GraficoTotalUmidade({ data }) {
   return (
     <div className="bg-white p-8 rounded-xl shadow-lg mt-8">
       <h3 className="text-xl font-semibold text-gray-700 mb-6">
-        Variação da Umidade
+        Variação do índice normalizado (relacionado a umidade do solo)
       </h3>
 
       <div className="h-96">
