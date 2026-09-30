@@ -7,7 +7,7 @@ export function CardUmidade({ current }) {
         <div className="flex items-center gap-3">
           <Droplets className="w-8 h-8 text-blue-600" />
           <h3 className="text-xl font-semibold text-gray-700">
-            Umidade do Solo
+            Índice Normalizado
           </h3>
         </div>
 
