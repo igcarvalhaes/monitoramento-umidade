@@ -89,10 +89,11 @@ function App() {
             <CardBomba lastIrrigation={umidadeDados.lastIrrigation} />
           </div>
 
-          {/* Nova seção para status do solo */}
+          {/* Nova seção para status do solo 
           <div className="mt-4">
             <StatusSolo percentage={umidadeDados.currentPercentage} />
           </div>
+          */}
 
           {/* Historico das últimas 3 medições de umidade */}
 
